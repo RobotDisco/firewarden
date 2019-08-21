@@ -1,2 +1,2 @@
-dev:
-	clj -A:fig -b dev -r
+repl:
+	clojure -A:rebel
