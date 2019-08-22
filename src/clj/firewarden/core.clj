@@ -40,3 +40,35 @@
      (merge base-http-request-options
             {:query-params {"start" today
                             "end" today}}))))
+
+(defn response->json
+  [response]
+  (-> response
+      :body
+      (json/parse-string true)))
+
+
+(defn out-of-office-employee-ids
+  []
+  (->> (fetch-out-of-office)
+       response->json
+       ;; OOO returns numeric IDs but employee directory returns strings?!?!?
+       ;; easiest to convert into a string here for consistency.
+       (map (comp str :employeeId))))
+
+(defn out-of-office-filter [ooo-seq]
+  (complement (set ooo-seq)))
+
+(defn city-filter [city]
+  (set (list city)))
+
+(defn local-working-employees
+  [city]
+  (let [ooo-ids (out-of-office-employee-ids)
+        ooo-filter (out-of-office-filter ooo-ids)
+        city-filter (city-filter city)]
+    (->> (fetch-employee-list)
+         response->json
+         :employees
+         (filter (comp ooo-filter :id))
+         (filter (comp city-filter :location)))))
