@@ -11,8 +11,11 @@
 (defonce app-state (atom {:__figwheel_counter 0, :employees []}))
 
 (defn fetch-employee-list! []
-  (go (let [response (<! (http/get "http://localhost:9500/whatever"))]
-        (swap! app-state assoc :employees (:body response)))))
+  (go (let [response (<! (http/get "http://localhost:9500/whatever"))
+            employees (:body response)
+            employees-accounted (map #(assoc % :accounted-for false) employees)
+            emp-map (zipmap (map :id employees-accounted) employees-accounted)]
+        (swap! app-state assoc :employees emp-map))))
 
 (defn reset-app-state! []
   (swap! app-state assoc :__figwheel_counter 0)
@@ -33,7 +36,7 @@
 
 (defn firewarden-app []
   [:div
-   [employee-list (:employees @app-state)]])
+   [employee-list (sort-by :in-office? (sort-by :lastName (vals (:employees @app-state))))]])
 
 ;; Reagent bootstrapping
 
@@ -51,7 +54,8 @@
 ;; this is particularly helpful for testing this ns without launching the app
 (mount-app-element)
 (when-not (seq (:employees @app-state))
-  (fetch-employee-list!))
+  (->> (fetch-employee-list!)
+      (map #(assoc % :accounted-for false))))
 
 ;; specify reload-hook with ^:after-load metadata
 (defn ^:after-load on-reload []
