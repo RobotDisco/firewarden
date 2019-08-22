@@ -1,11 +1,8 @@
 (ns firewarden.server
-  (:require [cheshire.core :as json]
-            [firewarden.employee :as emp]))
+  (:require [firewarden.employee :as emp]
+            [firewarden.json :refer [->json]]))
 
 (defonce employee-list (atom {}))
-
-(def ->json
-  json/generate-string)
 
 (defn fetch-employees! []
   (when-not (seq @employee-list)

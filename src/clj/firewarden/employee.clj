@@ -1,8 +1,8 @@
 (ns firewarden.employee
-  (:require [cheshire.core :as json]
-            [clj-http.client :as http]
-            [java-time :as dt]
-            [environ.core :refer [env]]))
+  (:require [clj-http.client :as http]
+            [environ.core :refer [env]]
+            [firewarden.json :refer [json->]]
+            [java-time :as dt]))
 
 (def directory-url
   "https://api.bamboohr.com/api/gateway.php/tulip/v1/employees/directory/")
@@ -41,16 +41,10 @@
             {:query-params {"start" today
                             "end" today}}))))
 
-(defn response->json
-  [response]
-  (-> response
-      :body
-      (json/parse-string true)))
-
 (defn out-of-office-employee-ids
   []
   (->> (fetch-out-of-office)
-       response->json
+       json->
        ;; OOO returns numeric IDs but employee directory returns strings?!?!?
        ;; easiest to convert into a string here for consistency.
        (map (comp str :employeeId))))
@@ -74,7 +68,7 @@
   (let [ooo-ids (out-of-office-employee-ids)
         in-office? (make-in-office-detector ooo-ids)]
     (->> (fetch-employee-list)
-         response->json
+         json->
          :employees
          (filter (partial in-city? city))
          (group-by in-office?))))
