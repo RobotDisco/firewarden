@@ -34,7 +34,7 @@
          accounted-for? :tr.accounted-for
          :else :tr)
    (when in-office?
-     {:on-touch-start (account-for id)})
+     {:on-mouse-down (account-for id)})
    [:td [(if in-office? :img.profile :img.profile.grayscale) {:src photoUrl}]]
    [:td firstName " " lastName]])
 
