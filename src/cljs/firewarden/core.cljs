@@ -18,15 +18,29 @@
   (swap! app-state assoc :__figwheel_counter 0)
   fetch-employee-list!)
 
+;; Widgets -- move somewhere else
+(defn employee-info
+  [{:keys [photoUrl firstName lastName in-office?]}]
+  [:tr
+   [:td [:img {:src photoUrl}]]
+   [:td firstName " " lastName]])
+
+(defn employee-list [employees]
+  [:table
+   (for [employee employees]
+     ^{:key (:id employee)} [employee-info employee])])
+
+(defn firewarden-app []
+  [:div
+   [employee-list (:employees @app-state)]])
+
+;; Reagent bootstrapping
+
 (defn get-app-element []
   (gdom/getElement "app"))
 
-(defn hello-world []
-  [:div
-   [:h4 (str @app-state)]])
-
 (defn mount [elem]
-  (reagent/render-component [hello-world] elem))
+  (reagent/render-component [firewarden-app] elem))
 
 (defn mount-app-element []
   (when-let [elem (get-app-element)]
