@@ -1,15 +1,21 @@
-{:deps {;; Core Language
+{:deps {;; Core Languages
         org.clojure/clojure {:mvn/version "1.10.1"}
+        org.clojure/clojurescript {:mvn/version "1.10.520"}
         ;; Environment Variables
         environ {:mvn/version "1.1.0"}
         ;; JSON
         cheshire {:mvn/version "5.9.0"}
+        ;; HTTP client
+        clj-http {:mvn/version "3.10.0"}
         ;; Date support
         clojure.java-time {:mvn/version "0.3.2"}
-        ;; HTTP client
-        clj-http {:mvn/version "3.10.0"}}
- :aliases {;; Prettier terminal-based REPL
+        ;; CLJS hotloading
+        com.bhauman/figwheel-main {:mvn/version "0.2.3"}}
+ :aliases {;; Prettier terminal-based Clojure REPL
            :rebel {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
-                   :main-opts ["-m" "rebel-readline.main"]}}
+                   :main-opts ["-m" "rebel-readline.main"]}
+           :figwheel {:main-opts ["-m" "figwheel.main"]
+                      :extra-deps {;; Prettier terminal-based ClojureScript REPL
+                                   com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}}}}
  ;; We'll likely have Clojure, Clojurescript, and shared code directories
- :paths ["src/clj"]}
+ :paths ["src/clj" "src/cljs" "resources" "target"]}
