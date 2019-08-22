@@ -10,7 +10,9 @@
         ;; Date support
         clojure.java-time {:mvn/version "0.3.2"}
         ;; CLJS hotloading
-        com.bhauman/figwheel-main {:mvn/version "0.2.3"}}
+        com.bhauman/figwheel-main {:mvn/version "0.2.3"}
+        ;; Reagent (React widgets for ClojureScript)
+        reagent {:mvn/version "0.8.1"}}
  :aliases {;; Prettier terminal-based Clojure REPL
            :rebel {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
                    :main-opts ["-m" "rebel-readline.main"]}
