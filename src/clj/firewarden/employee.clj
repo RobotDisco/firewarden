@@ -47,7 +47,6 @@
       :body
       (json/parse-string true)))
 
-
 (defn out-of-office-employee-ids
   []
   (->> (fetch-out-of-office)
