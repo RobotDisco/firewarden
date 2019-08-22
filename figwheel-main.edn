@@ -1,1 +1,3 @@
-{:ring-handler firewarden.server/handler}
+{:css-dirs ["resources/public/css"]
+ :ring-handler firewarden.server/handler}
+
