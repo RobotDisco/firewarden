@@ -21,14 +21,15 @@
 ;; Widgets -- move somewhere else
 (defn employee-info
   [{:keys [photoUrl firstName lastName in-office?]}]
-  [:tr
-   [:td [:img {:src photoUrl}]]
+  [(if in-office? :tr :tr.inactive)
+   [:td [(if in-office? :img.profile :img.profile.grayscale) {:src photoUrl}]]
    [:td firstName " " lastName]])
 
 (defn employee-list [employees]
   [:table
-   (for [employee employees]
-     ^{:key (:id employee)} [employee-info employee])])
+   [:tbody
+    (for [employee employees]
+      ^{:key (:id employee)} [employee-info employee])]])
 
 (defn firewarden-app []
   [:div

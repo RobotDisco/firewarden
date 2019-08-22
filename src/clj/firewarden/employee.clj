@@ -72,5 +72,5 @@
          json->
          :employees
          (filter (partial in-city? city))
-         (map #(select-keys % [:photoUrl :firstName :lastName]))
+         (map #(select-keys % [:id :photoUrl :firstName :lastName]))
          (map add-in-office-field))))
