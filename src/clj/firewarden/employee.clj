@@ -56,25 +56,26 @@
        ;; easiest to convert into a string here for consistency.
        (map (comp str :employeeId))))
 
-(defn make-ooo-detector [ooo-seq]
-  (let [ooo-set (set ooo-seq)]
+(defn make-in-office-detector [ooo-seq]
+  (let [in-office? (complement (set ooo-seq))]
     (fn [employee]
       (-> employee
           :id
-          ooo-set
-          ;; Coercing to boolean because I want to no yes/no, not "employee-id" vs. nil
-          boolean))))
+          in-office?))))
 
-(defn city-filter [city]
-  (set (list city)))
+(defn in-city? [city employee]
+  (-> employee
+      :location
+      (= city)))
 
 (defn local-employees
+  "Fetch employee directory from BambooHR and return hashmap of employees from `city`.
+  Returns a hash with two lists: the true key returns all employees who are marked as in-office, the false key contains all employees who are out of office."
   [city]
   (let [ooo-ids (out-of-office-employee-ids)
-        ooo-filter (make-ooo-detector ooo-ids)
-        city-filter (city-filter city)]
+        in-office? (make-in-office-detector ooo-ids)]
     (->> (fetch-employee-list)
          response->json
          :employees
-         (filter (comp city-filter :location))
-         (group-by ooo-filter))))
+         (filter (partial in-city? city))
+         (group-by in-office?))))
