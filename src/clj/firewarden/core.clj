@@ -56,19 +56,25 @@
        ;; easiest to convert into a string here for consistency.
        (map (comp str :employeeId))))
 
-(defn out-of-office-filter [ooo-seq]
-  (complement (set ooo-seq)))
+(defn make-ooo-detector [ooo-seq]
+  (let [ooo-set (set ooo-seq)]
+    (fn [employee]
+      (-> employee
+          :id
+          ooo-set
+          ;; Coercing to boolean because I want to no yes/no, not "employee-id" vs. nil
+          boolean))))
 
 (defn city-filter [city]
   (set (list city)))
 
-(defn local-working-employees
+(defn local-employees
   [city]
   (let [ooo-ids (out-of-office-employee-ids)
-        ooo-filter (out-of-office-filter ooo-ids)
+        ooo-filter (make-ooo-detector ooo-ids)
         city-filter (city-filter city)]
     (->> (fetch-employee-list)
          response->json
          :employees
-         (filter (comp ooo-filter :id))
-         (filter (comp city-filter :location)))))
+         (filter (comp city-filter :location))
+         (group-by ooo-filter))))
