@@ -26,3 +26,7 @@ td {
 tr td:first-child{
     width: 50px;
 }
+
+tr.accounted-for {
+    background-color: green;
+}

@@ -13,7 +13,7 @@
 (defn fetch-employee-list! []
   (go (let [response (<! (http/get "http://localhost:9500/whatever"))
             employees (:body response)
-            employees-accounted (map #(assoc % :accounted-for false) employees)
+            employees-accounted (map #(assoc % :accounted-for? false) employees)
             emp-map (zipmap (map :id employees-accounted) employees-accounted)]
         (swap! app-state assoc :employees emp-map))))
 
@@ -21,10 +21,20 @@
   (swap! app-state assoc :__figwheel_counter 0)
   fetch-employee-list!)
 
+;; Events
+(defn account-for [emp-id]
+  (fn [e]
+    (prn emp-id)
+    (swap! app-state update-in [:employees emp-id :accounted-for?] not)))
+
 ;; Widgets -- move somewhere else
 (defn employee-info
-  [{:keys [photoUrl firstName lastName in-office?]}]
-  [(if in-office? :tr :tr.inactive)
+  [{:keys [id photoUrl firstName lastName in-office? accounted-for?]}]
+  [(cond (not in-office?) :tr.inactive
+         accounted-for? :tr.accounted-for
+         :else :tr)
+   (when in-office?
+     {:on-touch-start (account-for id)})
    [:td [(if in-office? :img.profile :img.profile.grayscale) {:src photoUrl}]]
    [:td firstName " " lastName]])
 
@@ -50,12 +60,11 @@
   (when-let [elem (get-app-element)]
     (mount elem)))
 
-;; conditionally start your applucation based on the presence of an "app" element
+;; conditionally start your application based on the presence of an "app" element
 ;; this is particularly helpful for testing this ns without launching the app
 (mount-app-element)
 (when-not (seq (:employees @app-state))
-  (->> (fetch-employee-list!)
-      (map #(assoc % :accounted-for false))))
+  (fetch-employee-list!))
 
 ;; specify reload-hook with ^:after-load metadata
 (defn ^:after-load on-reload []
