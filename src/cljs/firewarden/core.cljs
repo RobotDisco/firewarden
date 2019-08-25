@@ -6,7 +6,6 @@
    [reagent.core :as reagent]))
 
 ;; Reagent bootstrapping
-
 (defn get-app-element []
   (gdom/getElement "app"))
 
