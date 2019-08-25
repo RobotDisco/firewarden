@@ -1,0 +1,29 @@
+# FireWarden for BambooHR
+** Description
+   This is a responsive/phone-optimized web app which is intended to provide a compact, accurate, and relevant listing of people at a given office, to ensure/confirm people's safety during the fire evacuation process.
+
+   It is currently optimized for fire wardens who list all employees who have reported theemselves to an evacuation safe zone.
+** Software Requirements
+   * A Java Runtime capable of supporting Clojure is required ... currently we depend on Java 8+.
+** How to install necessary dependencies
+   1. Install a Java 8+ runtime enviornment
+   2. Install =clojuree= via your favourite package managre (homebrew, apt, etc...)
+** How to configure
+   Set the following environment variables in order to run this software:
+
+   * **BAMBOOHR_API_KEY**: API Key provided by your BambooHR administrator. It must have read access to the employee directory and "who's out" calendar.
+   * **BAMBOOHR_ORG_NAME**: Your org name in BambooHR, can be usually found in the URL you use to access the site: ~<org name>.bamboohr.com~
+   * **FIREWARDEN_OFFICE**: The office you are going to be setting up this app for.
+** How to set up a development environment
+   * ~make backend-repl~ to run only the backend.
+   * ~make frontend-repl~ to primarily work on the frontend.
+   * ~make lint~ catch format/style errors.
+** Technologies Used
+   * [[https://clojure.org][Clojure]] - Lisplike programming environment for the JVM
+   * [[https://clojurescript.org][ClojureScript]] - Lisplike programming environment for JavaScript
+   * [[https://reagent-project.github.io/][Reagent]] - React framework for ClojureScript
+   * [[https://www.bamboohr.com/api/documentation/][BambooHR]] - SaaS HR platform.
+** Author
+   Gaelan D'costa
+** License
+   This software is licensed under the Eclipse Public License version 1.0: see [[LICENSE][LICENSE]] for more details.
