@@ -3,7 +3,7 @@
             [clojure.string :as string]
             [environ.core :refer [env]]
             [firewarden.json :refer [json->]]
-            [java-time :as dt]))
+            [java-time.local :as dt]))
 
 (def bamboo-org
   (env :bamboohr-org-name))
@@ -66,7 +66,6 @@
 (defn add-in-office-field-fn [ooo-seq]
   (let [in-office? (complement (set ooo-seq))]
     (fn [employee]
-      employee
       (assoc employee
              :in-office?
              (-> employee :id in-office?)))))
