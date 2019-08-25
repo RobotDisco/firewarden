@@ -15,7 +15,7 @@
 
 (defn fetch-employees! []
   (when-not (seq @employee-list)
-    (reset! employee-list (emp/local-employees "Toronto")))
+    (reset! employee-list (emp/local-employees emp/office)))
   @employee-list)
 
 (defn reset-employeelist! []

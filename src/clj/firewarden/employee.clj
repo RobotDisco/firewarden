@@ -29,6 +29,10 @@
   "BambooHR uses the API Key as the username, the password can be anything."
   [bamboo-hr-api-key "x"])
 
+(def office
+  "List employees from this office."
+  (env :firewarden-office))
+
 (def base-http-request-options
   "Basic options to pass `clj-http` when making HTTP requests
   We will always want responses back in JSON fpormat, and we will always have to
