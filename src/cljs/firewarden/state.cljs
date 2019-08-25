@@ -19,11 +19,10 @@
             emp-map (zipmap (map :id employees-accounted) employees-accounted)]
         (swap! app-state assoc :employees emp-map))))
 
-(defn account-for!
+(defn gen-account-for!
   "Generate browser event for `emp-id` to employee as accounted for."
   [emp-id]
   (fn [e]
-    (prn emp-id)
     (swap! app-state update-in [:employees emp-id :accounted-for?] not)))
 
 ;; Develeopment helper functions
