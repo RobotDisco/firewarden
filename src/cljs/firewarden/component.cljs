@@ -25,4 +25,7 @@
   "Root smart container/component for firewarden app."
   []
   [:div
-   [employee-list (sort-by :in-office? (sort-by :lastName (vals (:employees @fws/app-state))))]])
+   [employee-list (->> (fws/employees)
+                       vals
+                       (sort-by :lastName)
+                       (sort-by :in-office?))]])

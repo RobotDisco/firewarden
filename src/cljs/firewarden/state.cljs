@@ -12,6 +12,9 @@
 (defonce app-state
   (atom {:__figwheel_counter 0, :employees []}))
 
+(defn employees []
+  (:employees @app-state))
+
 (defn fetch-employee-list!
   "Fetch employee list + OOO status from BambooHR"
   []
