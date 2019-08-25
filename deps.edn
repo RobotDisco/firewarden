@@ -19,6 +19,8 @@
                    :main-opts ["-m" "rebel-readline.main"]}
            :figwheel {:main-opts ["-m" "figwheel.main"]
                       :extra-deps {;; Prettier terminal-based ClojureScript REPL
-                                   com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}}}}
+                                   com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}}}
+           :eastwood {:main-opts ["-m" "eastwood.lint" {:source-paths ["src/clj"]}]
+                      :extra-deps {jonase/eastwood {:mvn/version "0.3.6"}}}}
  ;; We'll likely have Clojure, Clojurescript, and shared code directories
  :paths ["src/clj" "src/cljs" "resources" "target"]}
