@@ -7,6 +7,7 @@
    [reagent.core :refer [atom]]))
 
 (def emp-list-url
+  ;; TODO: Have this be configurable for dev/prod builds.
   "http://localhost:9500/can-be-anything-right-now")
 
 (defonce app-state
