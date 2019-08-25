@@ -11,9 +11,9 @@
 ** How to configure
    Set the following environment variables in order to run this software:
 
-   * **BAMBOOHR_API_KEY**: API Key provided by your BambooHR administrator. It must have read access to the employee directory and "who's out" calendar.
-   * **BAMBOOHR_ORG_NAME**: Your org name in BambooHR, can be usually found in the URL you use to access the site: ~<org name>.bamboohr.com~
-   * **FIREWARDEN_OFFICE**: The office you are going to be setting up this app for.
+   * *BAMBOOHR_API_KEY*: API Key provided by your BambooHR administrator. It must have read access to the employee directory and "who's out" calendar.
+   * *BAMBOOHR_ORG_NAME*: Your org name in BambooHR, can be usually found in the URL you use to access the site: ~<org name>.bamboohr.com~
+   * *FIREWARDEN_OFFICE*: The office you are going to be setting up this app for.
 ** How to set up a development environment
    * ~make backend-repl~ to run only the backend.
    * ~make frontend-repl~ to primarily work on the frontend.
