@@ -26,7 +26,7 @@
 
 ;; specify reload-hook with ^:after-load metadata
 (defn ^:after-load on-reload []
-  (initialize-app!))
+  (mount-app-element))
 
 (initialize-app!)
 
