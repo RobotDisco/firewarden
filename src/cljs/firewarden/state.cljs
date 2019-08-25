@@ -17,7 +17,7 @@
             emp-map (zipmap (map :id employees-accounted) employees-accounted)]
         (swap! app-state assoc :employees emp-map))))
 
-(defn account-for [emp-id]
+(defn account-for! [emp-id]
   (fn [e]
     (prn emp-id)
     (swap! app-state update-in [:employees emp-id :accounted-for?] not)))
