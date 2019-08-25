@@ -6,6 +6,8 @@
    [cljs-http.client :as http]
    [reagent.core :refer [atom]]))
 
+(def emp-list-url
+  "http://localhost:9500/can-be-anything-right-now")
 
 (defonce app-state
   (atom {:__figwheel_counter 0, :employees []}))
@@ -13,7 +15,7 @@
 (defn fetch-employee-list!
   "Fetch employee list + OOO status from BambooHR"
   []
-  (go (let [response (<! (http/get "http://localhost:9500/whatever"))
+  (go (let [response (<! (http/get emp-list-url))
             employees (:body response)
             employees-accounted (map #(assoc % :accounted-for? false) employees)
             emp-map (zipmap (map :id employees-accounted) employees-accounted)]
