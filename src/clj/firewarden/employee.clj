@@ -1,13 +1,27 @@
 (ns firewarden.employee
   (:require [clj-http.client :as http]
+            [clojure.string :as string]
             [environ.core :refer [env]]
             [firewarden.json :refer [json->]]
             [java-time :as dt]))
 
+(def bamboo-org
+  (env :bamboohr-org-name))
+(def scheme
+  "https://")
+(def hostname
+  "api.bamboohr.com")
+(def base-api-path
+  "/api/gateway.php/")
+(def api-version-path
+  "/v1/")
+(def base-url
+  (string/join [scheme hostname base-api-path bamboo-org api-version-path]))
+
 (def directory-url
-  "https://api.bamboohr.com/api/gateway.php/tulip/v1/employees/directory/")
+  (string/join [base-url "employees/directory/"]))
 (def out-of-office-url
-  "https://api.bamboohr.com/api/gateway.php/tulip/v1/time_off/whos_out/")
+  (string/join [base-url "time_off/whos_out/"]))
 
 (def bamboo-hr-api-key
   (env :bamboohr-api-key))
